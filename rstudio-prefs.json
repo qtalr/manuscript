@@ -1,0 +1,21 @@
+{
+  "save_workspace": "never",
+  "always_save_history": false,
+  "reuse_sessions_for_project_links": true,
+  "posix_terminal_shell": "bash",
+  "initial_working_directory": "~",
+  "insert_native_pipe_operator": true,
+  "soft_wrap_r_files": true,
+  "highlight_selected_line": true,
+  "rainbow_parentheses": true,
+  "warn_variable_defined_but_not_used": true,
+  "default_encoding": "UTF-8",
+  "indent_guides": "rainbowlines",
+  "syntax_color_console": true,
+  "show_doc_outline_rmd": true,
+  "visual_markdown_code_editor_line_numbers": true,
+  "rmd_viewer_type": "pane",
+  "default_latex_program": "XeLaTeX",
+  "use_tinytex": true,
+  "jobs_tab_visibility": "shown"
+}
