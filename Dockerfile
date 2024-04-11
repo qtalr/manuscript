@@ -9,13 +9,6 @@
 # Use rocker/r-ver as the base image
 FROM rocker/r-ver:4.3.3
 
-# Set up environmental variables
-ENV S6_VERSION=v2.1.0.2
-ENV RSTUDIO_VERSION=2023.12.1+402
-ENV DEFAULT_USER=rstudio
-ENV PANDOC_VERSION=3.1.13
-ENV QUARTO_VERSION=1.4.553
-
 # Update linux libraries
 RUN apt-get update && apt-get install -y build-essential
 RUN apt-get install -y \
@@ -37,16 +30,25 @@ RUN apt-get install -y \
 # Clean up the apt-get installations.
 RUN rm -rf /var/lib/apt/lists/*
 
+# Set up environmental variables
+ENV S6_VERSION=v2.1.0.2
+ENV RSTUDIO_VERSION=2023.12.1+402
+ENV DEFAULT_USER=rstudio
+ENV PANDOC_VERSION=3.1.13
+ENV QUARTO_VERSION=1.4.553
+
 # Install RStudio, Pandoc, and Quarto
 RUN /rocker_scripts/install_rstudio.sh
 RUN /rocker_scripts/install_pandoc.sh
 RUN /rocker_scripts/install_quarto.sh
 
 # Set up user
+USER ${DEFAULT_USER}
 
 # Install TinyTex
 RUN quarto install tinytex --update-path
 
+# Install pak and renv
 RUN R -e "install.packages(c('pak', 'renv'), repos = 'https://cloud.r-project.org')"
 
 # Copy RStudio preferences
