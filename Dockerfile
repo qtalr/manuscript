@@ -45,11 +45,14 @@ RUN /rocker_scripts/install_quarto.sh
 # Set up user
 USER ${DEFAULT_USER}
 
-# Install TinyTex
-RUN quarto install tinytex --update-path
+# Install TinyTex if architecture is not arm64
+RUN if [ "$(uname -m)" != "aarch64" ]; then quarto install tinytex --update-path; else echo "Skipping TinyTex installation for ARM64 architecture"; fi
 
 # Install pak and renv
-RUN R -e "install.packages(c('pak', 'renv'), repos = 'https://cloud.r-project.org')"
+RUN R -e "install.packages(c('renv', 'tinytex'), repos = 'https://cloud.r-project.org')"
+
+# Install tinytex for Quarto support if architecture is arm64
+RUN if [ "$(uname -m)" = "aarch64" ]; then R -e "tinytex::install_tinytex()"; else echo "Skipping TinyTex installation for non-ARM64 architecture"; fi
 
 # Copy RStudio preferences
 COPY --chown=${DEFAULT_USER}:${DEFAULT_USER} rstudio-prefs.json /home/${DEFAULT_USER}/.config/rstudio/rstudio-prefs.json
