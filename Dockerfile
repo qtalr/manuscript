@@ -62,7 +62,7 @@ COPY --chown=${DEFAULT_USER}:${DEFAULT_USER} rstudio-prefs.json /home/${DEFAULT_
 USER root
 
 # Update font cache and rebuild LaTeX font database
-RUN fc-cache -fv && updmap-sys && mktexlsr
+# RUN fc-cache -fv && updmap-sys && mktexlsr
 
 # Default port for RStudio
 EXPOSE 8787
