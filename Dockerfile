@@ -25,7 +25,8 @@ RUN apt-get install -y \
     make \
     pandoc \
     python3 \
-    zlib1g-dev
+    zlib1g-dev \
+    fonts-hack-ttf
 
 # Clean up the apt-get installations.
 RUN rm -rf /var/lib/apt/lists/*
@@ -60,11 +61,11 @@ COPY --chown=${DEFAULT_USER}:${DEFAULT_USER} rstudio-prefs.json /home/${DEFAULT_
 # Change back to root user
 USER root
 
+# Update font cache and rebuild LaTeX font database
+RUN fc-cache -fv && updmap-sys && mktexlsr
+
 # Default port for RStudio
 EXPOSE 8787
-
-# Port for preview
-EXPOSE 4321
 
 # Start RStudio
 CMD ["/init"]
